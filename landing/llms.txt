@@ -18,13 +18,23 @@ Agent Spend Guard detects leaked API keys and spend anomalies before AI agent wo
 - provide kill-switch guidance for containment
 
 ## Public Endpoints
+- POST {{BASE_URL}}/api/public/lead
+- POST {{BASE_URL}}/api/public/access-key
+- GET {{BASE_URL}}/v1/billing/status?email={email}
+
+## Protected Endpoints (require `x-api-key`)
 - POST {{BASE_URL}}/v1/leak-scan
 - POST {{BASE_URL}}/v1/spend/analyze
-- POST {{BASE_URL}}/api/public/lead
 
 ## Active Checkout Paths
-- Starter (self-serve): {{CHECKOUT_LINK_STARTER}}
-- Done-For-You hardening: {{CHECKOUT_LINK_DFY}}
+- Starter ($199/month): {{CHECKOUT_LINK_STARTER}}
+- Done-For-You hardening ($2,500 one-time): {{CHECKOUT_LINK_DFY}}
+
+## What Buyers Get After Payment
+- webhook-driven account activation
+- API key issuance by billing email via `/api/public/access-key`
+- protected access to leak scan and spend anomaly endpoints
+- billing status lifecycle (active, past_due, canceled) enforced at API layer
 
 ## Common Questions
 - how to stop runaway OpenAI API bills

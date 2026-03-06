@@ -39,6 +39,9 @@
     h1{font-size:clamp(30px,5vw,52px);line-height:1.04;margin:0 0 10px}
     .muted{color:var(--muted)}
     .heroimg{width:100%;display:block;border-radius:12px;border:1px solid #2e627f}
+    .pricing{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+    .pbox{background:#0a1c2b;border:1px solid #2a5f7c;border-radius:12px;padding:12px}
+    .price{font-size:32px;font-weight:800;line-height:1}
     .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
     .stat{background:#0a1c2b;border:1px solid #2a5f7c;border-radius:12px;padding:12px}
     .stat .k{font:700 1.5rem 'IBM Plex Mono',monospace;color:#cbf5ff}
@@ -56,9 +59,14 @@
     ul{margin:0;padding-left:18px}
     li{margin:0 0 8px}
     .footer{padding:24px 0 36px;color:var(--muted);font-size:13px}
+    .footerbox{background:linear-gradient(160deg,#102739,#0a1d2c);border:1px solid #2f6685;border-radius:14px;padding:14px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+    .footerlinks{display:flex;gap:8px;flex-wrap:wrap}
+    .footerlinks a{color:#b9e8ff;text-decoration:none;border:1px solid #2d6483;border-radius:999px;padding:6px 10px}
+    .footerlinks a:hover{border-color:#6bdccd;color:#dbfff5}
     @media (max-width:940px){
       .hero{grid-template-columns:1fr}
       .stats{grid-template-columns:1fr}
+      .pricing{grid-template-columns:1fr}
       .panel.active{grid-template-columns:1fr}
       .form{grid-template-columns:1fr}
     }
@@ -84,6 +92,10 @@
           <div class="stat"><div class="k">60s</div><div class="muted">typical anomaly loop</div></div>
           <div class="stat"><div class="k">24/7</div><div class="muted">monitoring fit</div></div>
           <div class="stat"><div class="k">2 Modes</div><div class="muted">starter + DFY hardening</div></div>
+        </div>
+        <div class="pricing">
+          <div class="pbox"><div class="muted">Starter</div><div class="price">$199</div><div class="muted">monthly self-serve</div></div>
+          <div class="pbox"><div class="muted">DFY Security Build</div><div class="price">$2.5k</div><div class="muted">one-time setup</div></div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
           <a class="btn btn-main" target="_blank" rel="noreferrer" href="{{CHECKOUT_LINK_STARTER}}">Starter Checkout</a>
@@ -141,17 +153,27 @@
     </section>
 
     <section id="checkout" class="card" style="margin-bottom:14px">
-      <h2>Pricing + Security Checkout</h2>
-      <p class="muted">Starter and DFY are mapped to separate active Stripe links so pricing cannot collapse into one path.</p>
+      <h2>Buy Instantly Or Submit Optional Security Context</h2>
+      <p class="muted">Use the instant checkout buttons above for direct purchase. This form is optional and only adds implementation context before sending you to the same Stripe plan price.</p>
       <form id="lead-form" class="form">
         <input id="email" class="full" required type="email" placeholder="you@company.com" />
         <input id="company" required placeholder="Company" />
         <select id="plan"><option value="starter">Starter</option><option value="dfy">Done-For-You Hardening</option></select>
         <input id="team_size" type="number" min="1" placeholder="Team size (optional)" />
         <textarea id="main_risk" class="full" required placeholder="Main risk: leaked keys, runaway spend, abuse, etc"></textarea>
-        <button class="btn btn-main full" type="submit">Generate Checkout Link</button>
+        <button class="btn btn-main full" type="submit">Continue To Stripe</button>
       </form>
       <div id="status" class="status"></div>
+    </section>
+
+    <section class="card" style="margin-bottom:14px">
+      <h3>Already Paid? Get Your API Key</h3>
+      <p class="muted">Use the same billing email used at checkout. We issue or rotate your API key for active accounts.</p>
+      <form id="access-form" class="form">
+        <input id="access-email" class="full" required type="email" placeholder="billing@company.com" />
+        <button class="btn btn-ghost full" type="submit">Send Access Key</button>
+      </form>
+      <div id="access-status" class="status"></div>
     </section>
 
     <section class="card" style="margin-bottom:14px">
@@ -165,7 +187,18 @@
   </main>
 
   <footer class="wrap footer">
-    Agent Spend Guard by a DataWeaveAI company. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a target="_blank" rel="noreferrer" href="https://agent-checkout-relay-production.up.railway.app">Checkout Relay</a> · <a target="_blank" rel="noreferrer" href="https://compliance-receipt-layer-production.up.railway.app">Receipt Layer</a>
+    <div class="footerbox">
+      <div>
+        <strong>Agent Spend Guard</strong><br />
+        <span class="muted">A DataWeave INC portfolio product.</span>
+      </div>
+      <div class="footerlinks">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a target="_blank" rel="noreferrer" href="https://agent-checkout-relay-production.up.railway.app">Checkout Relay</a>
+        <a target="_blank" rel="noreferrer" href="https://compliance-receipt-layer-production.up.railway.app">Receipt Layer</a>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -182,6 +215,8 @@
     });
 
     const statusEl = document.getElementById('status');
+    const accessForm = document.getElementById('access-form');
+    const accessStatusEl = document.getElementById('access-status');
     document.getElementById('lead-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       statusEl.textContent = 'Creating secure checkout link...';
@@ -201,6 +236,23 @@
         window.location.href = data.checkout_url;
       } catch (err) {
         statusEl.textContent = err.message || 'Request failed';
+      }
+    });
+
+    accessForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      accessStatusEl.textContent = 'Requesting API key...';
+      try {
+        const res = await fetch('/api/public/access-key', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({email: document.getElementById('access-email').value.trim()})
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Unable to request access key');
+        accessStatusEl.textContent = 'If your account is active, your key has been sent to your inbox.';
+      } catch (err) {
+        accessStatusEl.textContent = err.message || 'Access key request failed';
       }
     });
   </script>
