@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Spend Guard | Stop Leaked Keys and Runaway AI Bills</title>
+  <meta name="description" content="Agent Spend Guard detects leaked API keys, runaway spend anomalies, and gives instant kill-switch playbooks for AI agent stacks." />
+  <meta name="keywords" content="ai spend guard, api key leak scanner, llm cost anomaly detection, agent security tool" />
+  <link rel="canonical" href="{{BASE_URL}}/" />
+  <style>
+    :root{--bg:#070f19;--card:#102232;--line:#25526b;--ink:#eaf6ff;--muted:#a2bfd1;--mint:#34d7b9;--blue:#6bc9ff;--warn:#ffc987;--bad:#ff8c8c}
+    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui;background:radial-gradient(900px 400px at 85% -5%,rgba(52,215,185,.14),transparent 70%),radial-gradient(700px 400px at 0% 0%,rgba(255,201,135,.1),transparent 70%),var(--bg);color:var(--ink)}
+    .wrap{max-width:1100px;margin:0 auto;padding:0 16px} nav{position:sticky;top:0;z-index:10;background:rgba(7,15,25,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+    .nav{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:8px}.brand{font-weight:800}.row{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:10px;font-weight:700;border:1px solid transparent;text-decoration:none;color:inherit;cursor:pointer}
+    .btn-main{background:linear-gradient(135deg,var(--mint),var(--blue));color:#052117}.btn-ghost{background:#102232;border-color:var(--line)}
+    .hero{padding:34px 0 16px;display:grid;grid-template-columns:1.1fr .9fr;gap:12px}.card{background:linear-gradient(160deg,#112637,#0d1e2b);border:1px solid var(--line);border-radius:15px;padding:16px}
+    h1{font-size:clamp(30px,5vw,50px);margin:0 0 10px;line-height:1.05}.muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.signal{border:1px solid #2c607b;border-radius:12px;padding:10px;background:#0b1b28}
+    input,select,textarea{width:100%;padding:10px 11px;border-radius:10px;border:1px solid #2a5974;background:#071725;color:var(--ink);font:inherit}.form{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1 / -1}
+    pre{margin:0;background:#061826;border:1px solid #26526b;border-radius:10px;padding:10px;color:#d1ecff;white-space:pre-wrap}
+    .footer{padding:18px 0 36px;color:var(--muted);font-size:13px}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.form{grid-template-columns:1fr}.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <nav><div class="wrap nav"><div class="brand">Agent Spend Guard</div><div class="row"><a class="btn btn-ghost" href="/docs-page">API Docs</a><a class="btn btn-main" href="#buy">Get Protected</a></div></div></nav>
+  <main class="wrap">
+    <section class="hero">
+      <article class="card">
+        <h1>Stop Leaked Keys And <span style="color:var(--mint)">Runaway AI Bills</span></h1>
+        <p class="muted">Built for teams running agent workflows. Scan for exposed credentials, detect spend spikes early, and trigger a kill-switch response before bills explode.</p>
+        <div class="row"><a target="_blank" rel="noreferrer" class="btn btn-main" href="{{CHECKOUT_LINK_DFY}}">Book DFY Hardening</a><a target="_blank" rel="noreferrer" class="btn btn-ghost" href="{{CHECKOUT_LINK_STARTER}}">Start Starter</a></div>
+      </article>
+      <aside class="card">
+        <div class="grid">
+          <div class="signal"><strong>Leak Scan</strong><div class="muted">OpenAI/Anthropic/Stripe/AWS/GitHub token patterns</div></div>
+          <div class="signal"><strong>Spend Anomaly</strong><div class="muted">Hourly cost and request spike scoring</div></div>
+          <div class="signal"><strong>Response Plan</strong><div class="muted">Immediate rotation + rate cap playbooks</div></div>
+          <div class="signal"><strong>Agent Safe</strong><div class="muted">Designed for autonomous tool use traffic</div></div>
+        </div>
+      </aside>
+    </section>
+
+    <section id="buy" class="card" style="margin-bottom:12px">
+      <h2 style="margin:0 0 8px">Secure Checkout</h2>
+      <form id="lead-form" class="form">
+        <input class="full" id="email" required type="email" placeholder="you@company.com" />
+        <input id="company" required placeholder="Company" />
+        <select id="plan"><option value="starter">Starter</option><option value="pro">Pro</option><option value="scale">Scale</option><option value="dfy">Done-For-You Hardening</option></select>
+        <input id="team_size" type="number" min="1" placeholder="Team size (optional)" />
+        <textarea class="full" id="main_risk" required placeholder="Main concern (key leaks, overspend, abuse, etc)"></textarea>
+        <button class="btn btn-main full" type="submit">Get Checkout Link</button>
+      </form>
+      <div id="status" class="muted" style="margin-top:8px"></div>
+    </section>
+
+    <section class="card" style="margin-bottom:12px">
+      <h3 style="margin:0 0 8px">API Quickstart</h3>
+      <pre>POST {{BASE_URL}}/v1/leak-scan
+POST {{BASE_URL}}/v1/spend/analyze
+POST {{BASE_URL}}/api/public/lead</pre>
+    </section>
+
+    <section class="card">
+      <h3 style="margin:0 0 8px">Try Leak Scan (demo)</h3>
+      <textarea id="demo-text" placeholder="Paste sample logs or text to scan"></textarea>
+      <button id="scan-btn" class="btn btn-ghost" style="margin-top:8px">Run Demo Scan</button>
+      <pre id="scan-out" style="margin-top:10px">{}</pre>
+    </section>
+  </main>
+  <footer class="wrap footer">Agent Spend Guard by a DataWeaveAI company. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></footer>
+  <script>
+    const statusEl = document.getElementById('status');
+    document.getElementById('lead-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      statusEl.textContent = 'Creating secure checkout link...';
+      const payload = {
+        email: document.getElementById('email').value.trim(),
+        company: document.getElementById('company').value.trim(),
+        team_size: Number(document.getElementById('team_size').value || 0) || null,
+        main_risk: document.getElementById('main_risk').value.trim(),
+        plan: document.getElementById('plan').value,
+        source: 'landing_form'
+      };
+      try {
+        const res = await fetch('/api/public/lead', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data = await res.json();
+        if (!res.ok || !data.checkout_url) throw new Error(data.detail || 'Unable to create checkout');
+        statusEl.textContent = 'Redirecting to Stripe...';
+        window.location.href = data.checkout_url;
+      } catch (err) {
+        statusEl.textContent = err.message || 'Request failed';
+      }
+    });
+
+    document.getElementById('scan-btn').addEventListener('click', async () => {
+      const text = document.getElementById('demo-text').value.trim();
+      const out = document.getElementById('scan-out');
+      out.textContent = 'Running...';
+      try {
+        const res = await fetch('/v1/leak-scan', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text,source:'web_demo'})});
+        const data = await res.json();
+        out.textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        out.textContent = JSON.stringify({error:'Scan failed'}, null, 2);
+      }
+    });
+  </script>
+</body>
+</html>

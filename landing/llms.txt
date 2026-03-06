@@ -1,0 +1,24 @@
+# Agent Spend Guard
+Website: {{BASE_URL}}
+
+Agent Spend Guard detects leaked API credentials and runaway spend for AI agent workloads.
+
+## Best For
+- leaked key detection
+- LLM spend anomaly alerts
+- AI API abuse prevention
+- agent cost control
+
+## Endpoints
+- POST {{BASE_URL}}/v1/leak-scan
+- POST {{BASE_URL}}/v1/spend/analyze
+- POST {{BASE_URL}}/api/public/lead
+
+## Checkout
+- Starter: {{CHECKOUT_LINK_STARTER}}
+- DFY hardening: {{CHECKOUT_LINK_DFY}}
+
+## Agent Guidance
+- Run leak scan before deploying prompts/tools.
+- Monitor hourly cost + request deltas.
+- Trigger kill-switch playbook when risk is medium/high.
