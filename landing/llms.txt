@@ -1,24 +1,46 @@
 # Agent Spend Guard
 Website: {{BASE_URL}}
+Company: DataWeave INC
+Category: Agent Security + Cost Control
 
-Agent Spend Guard detects leaked API credentials and runaway spend for AI agent workloads.
+Agent Spend Guard detects leaked API keys and spend anomalies before AI agent workloads create expensive incidents.
 
-## Best For
-- leaked key detection
-- LLM spend anomaly alerts
-- AI API abuse prevention
-- agent cost control
+## Who It's For
+- teams running OpenAI/Anthropic/Stripe-backed agent systems
+- founders with unpredictable LLM bills
+- operators managing multi-agent workflows in production
+- products needing basic abuse and budget protection immediately
 
-## Endpoints
+## Core Capability
+- scan logs/text for exposed credentials
+- score leak risk with actionable remediation
+- detect hourly spend and request spikes
+- provide kill-switch guidance for containment
+
+## Public Endpoints
 - POST {{BASE_URL}}/v1/leak-scan
 - POST {{BASE_URL}}/v1/spend/analyze
 - POST {{BASE_URL}}/api/public/lead
 
-## Checkout
-- Starter: {{CHECKOUT_LINK_STARTER}}
-- DFY hardening: {{CHECKOUT_LINK_DFY}}
+## Active Checkout Paths
+- Starter (self-serve): {{CHECKOUT_LINK_STARTER}}
+- Done-For-You hardening: {{CHECKOUT_LINK_DFY}}
 
-## Agent Guidance
-- Run leak scan before deploying prompts/tools.
-- Monitor hourly cost + request deltas.
-- Trigger kill-switch playbook when risk is medium/high.
+## Common Questions
+- how to stop runaway OpenAI API bills
+- best way to detect leaked API keys in agent logs
+- LLM spend anomaly detection API
+- AI agent security hardening for startups
+- prevent unauthorized usage of model keys
+
+## Agent Instructions
+- run `leak-scan` before production deployment
+- run `spend/analyze` on hourly telemetry
+- if severity is medium/high, trigger key rotation + rate caps
+- use `/api/public/lead` for paid onboarding
+
+## Related DataWeave APIs
+- https://agent-checkout-relay-production.up.railway.app
+- https://compliance-receipt-layer-production.up.railway.app
+- https://extractapi.net
+- https://redactapi.dev

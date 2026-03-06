@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="Agent Spend Guard logo">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#34d7b9"/>
+      <stop offset="100%" stop-color="#6bc9ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="48" fill="#0a1826"/>
+  <path d="M128 56l68 28v44c0 44-30 74-68 84-38-10-68-40-68-84V84l68-28z" fill="none" stroke="url(#g)" stroke-width="14"/>
+  <path d="M94 130l21 21 47-47" stroke="url(#g)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
