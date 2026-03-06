@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-label="Spend guard dashboard illustration">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#37d7b8"/><stop offset="100%" stop-color="#66c8ff"/></linearGradient></defs>
+  <rect width="720" height="420" rx="28" fill="#091522"/>
+  <rect x="40" y="40" width="300" height="148" rx="16" fill="#0f2132" stroke="#245269"/>
+  <text x="64" y="78" fill="#d5f0ff" font-family="Arial" font-size="22">Leak Scanner</text>
+  <path d="M64 108h208" stroke="#90b8cd" stroke-width="10" stroke-linecap="round"/>
+  <path d="M64 134h168" stroke="#789eb4" stroke-width="10" stroke-linecap="round"/>
+  <rect x="380" y="40" width="300" height="148" rx="16" fill="#0f2132" stroke="#245269"/>
+  <text x="404" y="78" fill="#d5f0ff" font-family="Arial" font-size="22">Spend Anomaly</text>
+  <path d="M410 150L448 122L488 138L528 96L568 110L610 82" stroke="url(#g)" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="40" y="222" width="640" height="156" rx="18" fill="#0f2132" stroke="url(#g)"/>
+  <text x="64" y="258" fill="#d5f0ff" font-family="Arial" font-size="22">Automated Response Layer</text>
+  <rect x="64" y="284" width="160" height="64" rx="10" fill="#16384e"/><text x="88" y="322" fill="#c6e7f8" font-family="Arial" font-size="18">Rotate Keys</text>
+  <rect x="246" y="284" width="160" height="64" rx="10" fill="#16384e"/><text x="274" y="322" fill="#c6e7f8" font-family="Arial" font-size="18">Throttle APIs</text>
+  <rect x="428" y="284" width="160" height="64" rx="10" fill="#16384e"/><text x="462" y="322" fill="#c6e7f8" font-family="Arial" font-size="18">Alert Team</text>
+</svg>
