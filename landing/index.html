@@ -64,12 +64,16 @@
     .footerlinks{display:flex;gap:8px;flex-wrap:wrap}
     .footerlinks a{color:#b9e8ff;text-decoration:none;border:1px solid #2d6483;border-radius:999px;padding:6px 10px}
     .footerlinks a:hover{border-color:#6bdccd;color:#dbfff5}
+    .mobile-sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:40;gap:8px;padding:10px 12px;background:rgba(6,15,24,.96);border-top:1px solid #2f6787}
+    .mobile-sticky-cta a{flex:1}
     @media (max-width:940px){
       .hero{grid-template-columns:1fr}
       .stats{grid-template-columns:1fr}
       .pricing{grid-template-columns:1fr}
       .panel.active{grid-template-columns:1fr}
       .form{grid-template-columns:1fr}
+      .mobile-sticky-cta{display:flex}
+      body{padding-bottom:72px}
     }
   </style>
 </head>
@@ -95,13 +99,14 @@
           <div class="stat"><div class="k">2 Modes</div><div class="muted">starter + DFY hardening</div></div>
         </div>
         <div class="pricing">
-          <div class="pbox"><div class="muted">Starter</div><div class="price">$199</div><div class="muted">monthly self-serve</div></div>
-          <div class="pbox"><div class="muted">DFY Security Build</div><div class="price">$2.5k</div><div class="muted">one-time setup</div></div>
+          <div class="pbox"><div class="muted">Starter</div><div class="price">{{STARTER_PRICE_LABEL}}</div><div class="muted">monthly self-serve</div></div>
+          <div class="pbox"><div class="muted">DFY Security Build</div><div class="price">{{DFY_PRICE_LABEL}}</div><div class="muted">one-time setup</div></div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
           <a class="btn btn-main" target="_blank" rel="noreferrer" href="{{CHECKOUT_LINK_STARTER}}">Starter Checkout</a>
           <a class="btn btn-ghost" target="_blank" rel="noreferrer" href="{{CHECKOUT_LINK_DFY}}">DFY Security Build</a>
         </div>
+        <p class="muted" style="margin-top:10px;font-size:13px;"><strong>Risk reversal:</strong> monthly can be canceled any time; DFY kickoff starts in &lt;24 hours.</p>
       </article>
       <aside class="card">
         <img class="heroimg" src="/assets/hero-guard.svg" alt="Spend Guard dashboard" />
@@ -198,6 +203,11 @@
       </ul>
     </section>
   </main>
+
+  <div class="mobile-sticky-cta">
+    <a class="btn btn-main" target="_blank" rel="noreferrer" href="{{CHECKOUT_LINK_STARTER}}">Start {{STARTER_PRICE_LABEL}}</a>
+    <a class="btn btn-ghost" target="_blank" rel="noreferrer" href="{{CHECKOUT_LINK_DFY}}">DFY {{DFY_PRICE_LABEL}}</a>
+  </div>
 
   <footer class="wrap footer">
     <div class="footerbox">
