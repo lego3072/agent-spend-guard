@@ -59,7 +59,7 @@ Agent Spend Guard detects leaked API keys and spend anomalies before AI agent wo
 4. One-sentence next step after payment.
 
 ## Related DataWeave APIs
-- https://agent-checkout-relay-production.up.railway.app
-- https://compliance-receipt-layer-production.up.railway.app
+- https://checkoutrelay.com
+- https://complyreceipt.com
 - https://extractapi.net
 - https://redactapi.dev
