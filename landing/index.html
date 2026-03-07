@@ -20,6 +20,7 @@
   <meta name="twitter:image" content="{{BASE_URL}}/logo.svg" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Agent Spend Guard","applicationCategory":"SecurityApplication","operatingSystem":"Web","url":"{{BASE_URL}}/","description":"Leak and spend anomaly protection for agent systems.","provider":{"@type":"Organization","name":"DataWeave INC"}}</script>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I prevent runaway OpenAI and Anthropic costs?","acceptedAnswer":{"@type":"Answer","text":"Monitor hourly costs/requests and trigger mitigation when anomaly thresholds are exceeded."}},{"@type":"Question","name":"Can this detect leaked API keys?","acceptedAnswer":{"@type":"Answer","text":"Yes, leak-scan checks for exposed credential patterns and returns severity plus actions."}}]}</script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500;700&display=swap');
     :root{--bg:#060f18;--panel:#0d1f2f;--line:#27536a;--text:#e7f7ff;--muted:#9bb9cb;--mint:#39d7bb;--blue:#62c7ff;--warn:#ffc885}
@@ -108,6 +109,15 @@
     </section>
 
     <section class="card" style="margin-bottom:14px">
+      <h2>What You Get Immediately After Payment</h2>
+      <ul>
+        <li>Spend Guard account activation with starter or DFY security lane.</li>
+        <li>API key issued to billing email for protected leak/anomaly endpoints.</li>
+        <li>Mitigation playbook and launch checklist to move from purchase to production fast.</li>
+      </ul>
+    </section>
+
+    <section class="card" style="margin-bottom:14px">
       <h2>Threat Modules (with Visual Tabs)</h2>
       <div class="tabs">
         <button class="tabbtn active" data-tab="leak">Leak Detection</button>
@@ -161,6 +171,9 @@
         <select id="plan"><option value="starter">Starter</option><option value="dfy">Done-For-You Hardening</option></select>
         <input id="team_size" type="number" min="1" placeholder="Team size (optional)" />
         <textarea id="main_risk" class="full" required placeholder="Main risk: leaked keys, runaway spend, abuse, etc"></textarea>
+        <div class="full">
+          <div class="cf-turnstile" data-sitekey="{{TURNSTILE_SITE_KEY}}" data-callback="spendTurnstileDone"></div>
+        </div>
         <button class="btn btn-main full" type="submit">Continue To Stripe</button>
       </form>
       <div id="status" class="status"></div>
@@ -202,6 +215,20 @@
   </footer>
 
   <script>
+    let turnstileToken = '';
+    function spendTurnstileDone(token) {
+      turnstileToken = token || '';
+    }
+    async function trackEvent(eventName, plan) {
+      try {
+        await fetch('/api/public/event', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ event: eventName, plan: plan || null, source: 'landing' })
+        });
+      } catch (_) {}
+    }
+
     const tabButtons = document.querySelectorAll('.tabbtn');
     const panels = document.querySelectorAll('.panel');
     tabButtons.forEach((btn) => {
@@ -219,16 +246,19 @@
     const accessStatusEl = document.getElementById('access-status');
     document.getElementById('lead-form').addEventListener('submit', async (e) => {
       e.preventDefault();
+      const selectedPlan = document.getElementById('plan').value;
       statusEl.textContent = 'Creating secure checkout link...';
       const payload = {
         email: document.getElementById('email').value.trim(),
         company: document.getElementById('company').value.trim(),
         team_size: Number(document.getElementById('team_size').value || 0) || null,
         main_risk: document.getElementById('main_risk').value.trim(),
-        plan: document.getElementById('plan').value,
-        source: 'landing_form'
+        plan: selectedPlan,
+        source: 'landing_form',
+        turnstile_token: turnstileToken || null
       };
       try {
+        await trackEvent('checkout_started', selectedPlan);
         const res = await fetch('/api/public/lead', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
         const data = await res.json();
         if (!res.ok || !data.checkout_url) throw new Error(data.detail || 'Unable to create checkout');
@@ -251,10 +281,12 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.detail || 'Unable to request access key');
         accessStatusEl.textContent = 'If your account is active, your key has been sent to your inbox.';
+        trackEvent('activation_completed', null);
       } catch (err) {
         accessStatusEl.textContent = err.message || 'Access key request failed';
       }
     });
+    trackEvent('landing_view', null);
   </script>
 </body>
 </html>
